@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    <!--配置springmvc-->
+    <!--1:开启springmvc的注解模式-->
+    <!--简化配置：
+        1):自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter
+        2):提供一系列的数据绑定，数据和日期@NumberFormat @DataTimeFormat,
+        xml,json默认读写支持
+    -->
+    <mvc:annotation-driven/>
+
+    <!--servlet-mapping映射路径：“/” -->
+    <!--2:静态资源默认servlet配置
+        1):加入对静态资源的处理：js,gif,png
+        2):允许使用“/”做整体映射
+    -->
+    <mvc:default-servlet-handler/>
+
+
+    <!--配置pdf视图解析器-->
+    <!--<bean id="resourceBundleViewResolver"
+          class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename" value="views"></property>
+        <property name="order" value="100"></property>
+    </bean>-->
+
+    <!-- 3:配置jsp显示ViewResolver -->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>-->
+
+    <!-- 4:扫描web相关的bean -->
+    <context:component-scan base-package="com.mao.controller"></context:component-scan>
+    <context:component-scan base-package="com.mao.test"></context:component-scan>
+    <!-- 5:集成freemarker -->
+
+
+    <bean id="freemarkerViewResolver"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="prefix" value="/html/" />
+        <property name="suffix" value=".html" />
+        <property name="contentType" value="text/html; charset=UTF-8" />
+        <property name="exposeRequestAttributes" value="false" />
+        <property name="exposeSessionAttributes" value="false" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="requestContextAttribute" value="request" />
+    </bean>
+
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath"><value>/WEB-INF</value></property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="template_update_delay">5</prop>
+                <prop key="defaultEncoding">UTF-8</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="boolean_format">true,false</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="number_format">0.######</prop>
+                <prop key="whitespace_stripping">true</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="pageTitle" value="youngteam"></entry>
+                <!--=<entry key="dictCode" value-ref="dictCode"/>
+                <entry key="dictValue" value-ref="dictValue"/>
+                <entry key="jobName" value-ref="jobName"/>
+                <entry key="dictRole" value-ref="dictRole"></entry>
+                <entry key="areaCode" value-ref="areaCode"></entry>
+                <entry key="imgUrl" value="http://zfhr.oss-cn-shanghai.aliyuncs.com/"></entry>-->
+            </map>
+        </property>
+    </bean>
+
+
+
+
+</beans>
